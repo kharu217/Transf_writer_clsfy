@@ -7,7 +7,7 @@ class PositionWiseFeedForward(nn.Module) :
         super().__init__()
         self.fc1 = nn.Linear(d_model, d_ff)
         self.fc2 = nn.Linear(d_ff, d_model)
-        self.swiglu = SwiGLU(d_model)
+        self.swiglu = SwiGLU(d_model, d_ff)
     
     def forward(self, x) :
         return self.fc2(self.swiglu(self.fc1(x)))
