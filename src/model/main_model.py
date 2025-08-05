@@ -15,5 +15,5 @@ class attn_classifier(nn.Module) :
         return x
 
 if __name__ == "__main__" :
-    test = attn_classifier(512, 8, 10, 0.2, 5)
-    torchsummary.summary(test, (2, 10, 10, 512))
+    test = attn_classifier(512, 2, 10, 0.2, 5)
+    torchsummary.summary(test, (100, 512), 1)

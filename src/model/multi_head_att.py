@@ -22,8 +22,10 @@ class MultiHeadAttention(nn.Module) :
             attn_scores = attn_scores.masked_fill(mask == 0, -1e9)
         attn_probs = torch.softmax(attn_scores, dim=-1)
         output = torch.matmul(attn_probs, V)
+        return output
     
     def split_heads(self, x) :
+        print(x.size())
         batch_size, seq_length, d_model = x.size()
         return x.view(batch_size, seq_length, self.num_heads, self.d_k).transpose(1, 2)
         # (batch_size, seq_lenght, d_model) -> (batch_size, seq_length, num_heads, d_k)
@@ -35,7 +37,7 @@ class MultiHeadAttention(nn.Module) :
     def forward(self, Q, K, V, mask=None) :
         Q = self.split_heads(self.W_q(Q))
         K = self.split_heads(self.W_k(K))
-        V = self.split_heads(self.W_k(K))
+        V = self.split_heads(self.W_v(V))
 
         attn_output = self.scaled_dot_product(Q, K, V, mask)
         output = self.W_o(self.combine_heads(attn_output))
