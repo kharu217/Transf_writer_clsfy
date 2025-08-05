@@ -18,3 +18,8 @@ class EncoderLayer(nn.Module) :
         ff_output = self.feed_forward(x)
         x = self.norm2(x + self.dropout(ff_output))
         return x
+
+if __name__ == "__main__" :
+    test = EncoderLayer(50, 2, 10, 0.2)
+    A = torch.rand(2, 4096, 100).transpose(1, 2)
+    print(test(A).shape)
